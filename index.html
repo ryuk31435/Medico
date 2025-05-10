@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medico - Your Health Partner</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="styles/style.css">
+  <link rel="stylesheet" href="styles/darkmode.css">
+  <link rel="stylesheet" href="styles/custom.css">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Scripts -->
+  <script src="scripts/firebase.js" defer></script>
+  <script src="scripts/main.js" defer></script>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo">Medico<span>+</span></a>
+        
+        <button class="hamburger" id="hamburger">
+          <i class="fas fa-bars"></i>
+        </button>
+        
+        <ul class="nav-links" id="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="medicines.html">Medicines</a></li>
+          <li><a href="interactions.html">Interactions</a></li>
+          <li><a href="guides.html">Guides</a></li>
+          <li><a href="chatbot.html">Chatbot</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="login.html" class="login-btn">Sign In</a></li>
+          <li><a href="signup.html" class="login-btn">Sign Up</a></li>
+          <li>
+            <a href="#" class="logout-btn" style="display: none;">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+          </li>
+          <li>
+            <a href="cart.html" class="cart-icon">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="cart-count" id="cart-count">0</span>
+            </a>
+          </li>
+          <li>
+            <div class="dark-mode-toggle">
+              <i class="fas fa-moon toggle-icon moon"></i>
+              <i class="fas fa-sun toggle-icon sun"></i>
+              <label class="toggle-switch">
+                <input type="checkbox" id="dark-mode-toggle">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </li>
+        </ul>
+        
+        <div id="user-greeting" style="display: none;"></div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Hero Section -->
+    <div class="hero-section">
+      <div class="container">
+        <div class="hero-content">
+          <h1 class="hero-title">Your Healthcare Companion</h1>
+          <p class="hero-subtitle">Find medicines, check interactions, and stay informed about your health with Medico+</p>
+          <div class="hero-buttons">
+            <a href="medicines.html" class="btn btn-primary">Browse Medicines</a>
+            <a href="interactions.html" class="btn btn-outline" style="background-color: rgba(255, 255, 255, 0.2); color: white; border-color: rgba(255, 255, 255, 0.3);">Check Interactions</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Search Box -->
+    <div class="container">
+      <div class="search-container">
+        <form id="search-form" class="search-form">
+          <input type="text" id="search-input" class="search-input" placeholder="Search for medicines, symptoms, or health topics...">
+          <button type="submit" class="search-btn">
+            <i class="fas fa-search"></i>
+          </button>
+        </form>
+        
+        <div id="recent-searches" class="recent-searches" style="display: none;">
+          <h3 class="recent-searches-title">Recent Searches</h3>
+          <ul id="recent-search-list"></ul>
+        </div>
+      </div>
+      
+      <!-- Feature Blocks -->
+      <div class="feature-block">
+        <h2 class="section-title" style="text-align: center; margin-bottom: 2.5rem;">Why Choose Medico+</h2>
+        
+        <div class="feature-grid">
+          <div class="feature-item">
+            <div class="feature-icon">
+              <i class="fas fa-pills"></i>
+            </div>
+            <h3 class="feature-title">Wide Range of Medicines</h3>
+            <p>Access information about a comprehensive catalog of medications and supplements for your health needs.</p>
+          </div>
+          
+          <div class="feature-item">
+            <div class="feature-icon">
+              <i class="fas fa-exchange-alt"></i>
+            </div>
+            <h3 class="feature-title">Interaction Checker</h3>
+            <p>Easily check potential interactions between multiple medications to ensure your safety.</p>
+          </div>
+          
+          <div class="feature-item">
+            <div class="feature-icon">
+              <i class="fas fa-robot"></i>
+            </div>
+            <h3 class="feature-title">Health Assistant</h3>
+            <p>Get quick answers to common health questions with our AI-powered medical assistant.</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Popular Medicines -->
+      <div class="popular-medicines-section">
+        <h2 class="section-title">Popular Medicines</h2>
+        <div class="card-grid" id="popular-medicines">
+          <div class="loader-container" style="text-align: center; grid-column: 1 / -1; padding: 40px;">
+            <span class="loader"></span>
+          </div>
+        </div>
+        
+        <div class="view-all-btn" style="text-align: center; margin-top: 2rem;">
+          <a href="medicines.html" class="btn btn-outline">View All Medicines</a>
+        </div>
+      </div>
+      
+      <!-- Health Tips Section -->
+      <div class="health-tips-section" style="margin-top: 5rem; padding: 3rem; background-color: var(--neutral-100); border-radius: var(--border-radius-lg);">
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 2rem;">
+          <div style="flex: 1; min-width: 300px;">
+            <h2 style="margin-bottom: 1rem;">Health Tips & Guides</h2>
+            <p style="margin-bottom: 1.5rem;">Discover useful health information and tips to maintain your well-being. Our regularly updated guides provide valuable insights for a healthier lifestyle.</p>
+            <a href="guides.html" class="btn btn-primary">Explore Guides</a>
+          </div>
+          
+          <div style="flex: 1; min-width: 300px;">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoQe5CA-Y-3Lyc0WJbSpmtBmkgTeYg-IiHOw&s" alt="Health Tips" style="width: 100%; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-lg);">
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">Medico+</div>
+        
+        <ul class="footer-links">
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+        
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+      
+      <div class="copyright">
+        &copy; 2025 Medico+. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notifications -->
+  <div id="toast-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;"></div>
+</body>
+</html> 

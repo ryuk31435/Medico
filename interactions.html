@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medicine Interactions - Medico</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="styles/style.css">
+  <link rel="stylesheet" href="styles/darkmode.css">
+  <link rel="stylesheet" href="styles/custom.css">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Scripts -->
+  <script src="scripts/firebase.js" defer></script>
+  <script src="scripts/main.js" defer></script>
+  <script src="scripts/interactions.js" defer></script>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo">Medico<span>+</span></a>
+        
+        <button class="hamburger" id="hamburger">
+          <i class="fas fa-bars"></i>
+        </button>
+        
+        <ul class="nav-links" id="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="medicines.html">Medicines</a></li>
+          <li><a href="interactions.html">Interactions</a></li>
+          <li><a href="guides.html">Guides</a></li>
+          <li><a href="chatbot.html">Chatbot</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="login.html" class="login-btn">Sign In</a></li>
+          <li><a href="signup.html" class="login-btn">Sign Up</a></li>
+          <li>
+            <a href="#" class="logout-btn" style="display: none;">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+          </li>
+          <li>
+            <a href="cart.html" class="cart-icon">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="cart-count" id="cart-count">0</span>
+            </a>
+          </li>
+          <li>
+            <div class="dark-mode-toggle">
+              <i class="fas fa-moon toggle-icon moon"></i>
+              <i class="fas fa-sun toggle-icon sun"></i>
+              <label class="toggle-switch">
+                <input type="checkbox" id="dark-mode-toggle">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </li>
+        </ul>
+        
+        <div id="user-greeting" style="display: none;"></div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+      <h1 class="page-title">Medicine Interactions Checker</h1>
+      
+      <div class="intro-text">
+        <p>Check for potential interactions between different medicines. Select two medicines from the dropdown menus below to see if there are any known interactions between them.</p>
+        <p class="disclaimer">
+          <i class="fas fa-exclamation-circle"></i> <strong>Disclaimer:</strong> This tool is for informational purposes only and should not replace professional medical advice. Always consult with your healthcare provider before starting or stopping any medication.
+        </p>
+      </div>
+      
+      <div class="interactions-container">
+        <div class="interaction-selectors">
+          <!-- Medicine Selectors -->
+          <div class="form-group">
+            <label for="medicine1" class="form-label">First Medicine</label>
+            <select id="medicine1" class="form-input">
+              <option value="">Select a medicine</option>
+              <!-- Options will be added dynamically -->
+            </select>
+          </div>
+          
+          <div class="interaction-icon">
+            <i class="fas fa-exchange-alt"></i>
+          </div>
+          
+          <div class="form-group">
+            <label for="medicine2" class="form-label">Second Medicine</label>
+            <select id="medicine2" class="form-input">
+              <option value="">Select a medicine</option>
+              <!-- Options will be added dynamically -->
+            </select>
+          </div>
+          
+          <button id="check-interaction-btn" class="btn btn-primary">Check Interaction</button>
+        </div>
+        
+        <!-- Results Area -->
+        <div id="interaction-results" style="display: none;">
+          <div class="loader-container" id="interaction-loader" style="text-align: center; padding: 40px;">
+            <span class="loader"></span>
+            <p>Checking interactions...</p>
+          </div>
+          
+          <div id="interaction-content" style="display: none;">
+            <div class="interaction-header">
+              <h2>Interaction between <span id="medicine1-name"></span> and <span id="medicine2-name"></span></h2>
+              <div class="severity-indicator">
+                Severity: <span id="interaction-severity" class="severity-badge"></span>
+              </div>
+            </div>
+            
+            <div class="interaction-details">
+              <h3>Description</h3>
+              <p id="interaction-description"></p>
+              
+              <h3>Recommendation</h3>
+              <p id="interaction-recommendation"></p>
+            </div>
+            
+            <div class="interaction-actions">
+              <button id="print-btn" class="btn btn-outline">
+                <i class="fas fa-print"></i> Print
+              </button>
+              <button id="new-check-btn" class="btn btn-primary">
+                Check Another Interaction
+              </button>
+            </div>
+          </div>
+          
+          <div id="no-interaction-found" style="display: none; text-align: center; padding: 30px;">
+            <i class="fas fa-check-circle" style="font-size: 3rem; color: var(--secondary-color); margin-bottom: 15px;"></i>
+            <h3>No Known Interaction</h3>
+            <p>No significant interaction has been found between these medicines. However, always consult your healthcare provider or pharmacist.</p>
+            <button id="no-interaction-new-check-btn" class="btn btn-primary" style="margin-top: 15px;">
+              Check Another Interaction
+            </button>
+          </div>
+        </div>
+        
+        <!-- Common Interactions Section -->
+        <div class="common-interactions">
+          <h2>Common Medicine Interactions</h2>
+          <div class="card-grid" id="common-interactions-grid">
+            <!-- Will be populated dynamically -->
+            <div class="loader-container" style="text-align: center; grid-column: 1 / -1; padding: 40px;">
+              <span class="loader"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">Medico+</div>
+        
+        <ul class="footer-links">
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+        
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+      
+      <div class="copyright">
+        &copy; 2023 Medico+. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notifications -->
+  <div id="toast-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;"></div>
+</body>
+</html> 

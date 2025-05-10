@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - Medico</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="styles/style.css">
+  <link rel="stylesheet" href="styles/darkmode.css">
+  <link rel="stylesheet" href="styles/custom.css">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Scripts -->
+  <script src="scripts/firebase.js" defer></script>
+  <script src="scripts/main.js" defer></script>
+  <script>
+    // Simple contact form handling
+    document.addEventListener('DOMContentLoaded', () => {
+      const contactForm = document.getElementById('contact-form');
+      
+      if (contactForm) {
+        contactForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          
+          // Get form values
+          const name = document.getElementById('contact-name').value.trim();
+          const email = document.getElementById('contact-email').value.trim();
+          const subject = document.getElementById('contact-subject').value.trim();
+          const message = document.getElementById('contact-message').value.trim();
+          
+          // Simple validation
+          if (!name || !email || !subject || !message) {
+            showToast('Please fill in all fields', 'error');
+            return;
+          }
+          
+          // Show loading state
+          const submitBtn = document.getElementById('contact-submit');
+          const originalBtnText = submitBtn.textContent;
+          submitBtn.innerHTML = '<span class="loader"></span> Sending...';
+          submitBtn.disabled = true;
+          
+          // Simulate sending (since we don't have a backend)
+          setTimeout(() => {
+            // Reset form
+            contactForm.reset();
+            
+            // Reset button
+            submitBtn.innerHTML = originalBtnText;
+            submitBtn.disabled = false;
+            
+            // Show success message
+            showToast('Your message has been sent! We\'ll get back to you soon.', 'success');
+          }, 1500);
+        });
+      }
+    });
+  </script>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo">Medico<span>+</span></a>
+        
+        <button class="hamburger" id="hamburger">
+          <i class="fas fa-bars"></i>
+        </button>
+        
+        <ul class="nav-links" id="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="medicines.html">Medicines</a></li>
+          <li><a href="interactions.html">Interactions</a></li>
+          <li><a href="guides.html">Guides</a></li>
+          <li><a href="chatbot.html">Chatbot</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="login.html" class="login-btn">Sign In</a></li>
+          <li><a href="signup.html" class="login-btn">Sign Up</a></li>
+          <li>
+            <a href="#" class="logout-btn" style="display: none;">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+          </li>
+          <li>
+            <a href="cart.html" class="cart-icon">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="cart-count" id="cart-count">0</span>
+            </a>
+          </li>
+          <li>
+            <div class="dark-mode-toggle">
+              <i class="fas fa-moon toggle-icon moon"></i>
+              <i class="fas fa-sun toggle-icon sun"></i>
+              <label class="toggle-switch">
+                <input type="checkbox" id="dark-mode-toggle">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </li>
+        </ul>
+        
+        <div id="user-greeting" style="display: none;"></div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+      <h1 class="page-title">Contact Us</h1>
+      
+      <div class="contact-container" style="display: flex; flex-wrap: wrap; gap: 30px; margin-top: 30px;">
+        <!-- Contact Information -->
+        <div class="contact-info" style="flex: 1; min-width: 300px;">
+          <h2>Get In Touch</h2>
+          <p>Have questions about our products or services? Need help with your order? Reach out to us!</p>
+          
+          <div class="contact-details" style="margin-top: 30px;">
+            <div class="contact-item" style="display: flex; align-items: center; margin-bottom: 20px;">
+              <i class="fas fa-map-marker-alt" style="font-size: 20px; color: var(--primary-color); margin-right: 15px; width: 25px;"></i>
+              <div>
+                <h3 style="margin-bottom: 5px;">Our Location</h3>
+                <p>Green University of Bangladesh</p>
+              </div>
+            </div>
+            
+            <div class="contact-item" style="display: flex; align-items: center; margin-bottom: 20px;">
+              <i class="fas fa-phone-alt" style="font-size: 20px; color: var(--primary-color); margin-right: 15px; width: 25px;"></i>
+              <div>
+                <h3 style="margin-bottom: 5px;">Phone</h3>
+                <p>01605953949</p>
+              </div>
+            </div>
+            
+            <div class="contact-item" style="display: flex; align-items: center; margin-bottom: 20px;">
+              <i class="fas fa-envelope" style="font-size: 20px; color: var(--primary-color); margin-right: 15px; width: 25px;"></i>
+              <div>
+                <h3 style="margin-bottom: 5px;">Email</h3>
+                <p>GUB@medico.com</p>
+              </div>
+            </div>
+            
+            <div class="contact-item" style="display: flex; align-items: center; margin-bottom: 20px;">
+              <i class="fas fa-clock" style="font-size: 20px; color: var(--primary-color); margin-right: 15px; width: 25px;"></i>
+              <div>
+                <h3 style="margin-bottom: 5px;">Working Hours</h3>
+                <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
+                <p>Saturday: 10:00 AM - 4:00 PM</p>
+                <p>Sunday: Closed</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="social-links" style="margin-top: 30px;">
+            <h3>Connect With Us</h3>
+            <div style="display: flex; gap: 15px; margin-top: 10px;">
+              <a href="#" style="font-size: 24px; color: var(--primary-color);"><i class="fab fa-facebook"></i></a>
+              <a href="#" style="font-size: 24px; color: var(--primary-color);"><i class="fab fa-twitter"></i></a>
+              <a href="#" style="font-size: 24px; color: var(--primary-color);"><i class="fab fa-instagram"></i></a>
+              <a href="#" style="font-size: 24px; color: var(--primary-color);"><i class="fab fa-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Contact Form -->
+        <div class="contact-form-wrapper" style="flex: 1; min-width: 300px;">
+          <div class="form-container" style="max-width: none;">
+            <h2 class="form-title">Send Us a Message</h2>
+            
+            <form id="contact-form">
+              <div class="form-group">
+                <label for="contact-name" class="form-label">Your Name</label>
+                <input type="text" id="contact-name" class="form-input" placeholder="Enter your name" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="contact-email" class="form-label">Email Address</label>
+                <input type="email" id="contact-email" class="form-input" placeholder="Enter your email" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="contact-subject" class="form-label">Subject</label>
+                <input type="text" id="contact-subject" class="form-input" placeholder="Enter subject" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="contact-message" class="form-label">Message</label>
+                <textarea id="contact-message" class="form-input" rows="5" placeholder="Type your message here..." required></textarea>
+              </div>
+              
+              <button type="submit" id="contact-submit" class="form-btn btn-primary">Send Message</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">Medico+</div>
+        
+        <ul class="footer-links">
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+        
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+      
+      <div class="copyright">
+        &copy; 2025 Medico+. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notifications -->
+  <div id="toast-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;"></div>
+</body>
+</html> 

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medicines - Medico</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="styles/style.css">
+  <link rel="stylesheet" href="styles/darkmode.css">
+  <link rel="stylesheet" href="styles/custom.css">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Scripts -->
+  <script src="scripts/firebase.js" defer></script>
+  <script src="scripts/main.js" defer></script>
+  <script src="scripts/medicines.js" defer></script>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo">Medico<span>+</span></a>
+        
+        <button class="hamburger" id="hamburger">
+          <i class="fas fa-bars"></i>
+        </button>
+        
+        <ul class="nav-links" id="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="medicines.html">Medicines</a></li>
+          <li><a href="interactions.html">Interactions</a></li>
+          <li><a href="guides.html">Guides</a></li>
+          <li><a href="chatbot.html">Chatbot</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="login.html" class="login-btn">Sign In</a></li>
+          <li><a href="signup.html" class="login-btn">Sign Up</a></li>
+          <li>
+            <a href="#" class="logout-btn" style="display: none;">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+          </li>
+          <li>
+            <a href="cart.html" class="cart-icon">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="cart-count" id="cart-count">0</span>
+            </a>
+          </li>
+          <li>
+            <div class="dark-mode-toggle">
+              <i class="fas fa-moon toggle-icon moon"></i>
+              <i class="fas fa-sun toggle-icon sun"></i>
+              <label class="toggle-switch">
+                <input type="checkbox" id="dark-mode-toggle">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </li>
+        </ul>
+        
+        <div id="user-greeting" style="display: none;"></div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+      <h1 class="page-title">Medicines</h1>
+      
+      <!-- Search Bar -->
+      <div class="search-container">
+        <form id="search-form">
+          <input type="text" class="search-bar" id="search-input" placeholder="Search for medicines...">
+          <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
+        </form>
+      </div>
+      
+      <!-- Filters -->
+      <div class="filters-container" style="margin-top: 20px;">
+        <div class="filter-section">
+          <label for="category-filter">Category:</label>
+          <select id="category-filter" class="form-input">
+            <option value="all">All Categories</option>
+            <!-- Categories will be populated dynamically -->
+          </select>
+        </div>
+        
+        <div class="filter-section">
+          <label for="sort-by">Sort By:</label>
+          <select id="sort-by" class="form-input">
+            <option value="name-asc">Name (A-Z)</option>
+            <option value="name-desc">Name (Z-A)</option>
+            <option value="price-asc">Price (Low to High)</option>
+            <option value="price-desc">Price (High to Low)</option>
+            <option value="popularity">Popularity</option>
+          </select>
+        </div>
+        
+        <div class="filter-section">
+          <button id="reset-filters" class="btn btn-outline">Reset Filters</button>
+        </div>
+      </div>
+      
+      <!-- Results Count -->
+      <div id="results-count" style="margin: 15px 0;"></div>
+      
+      <!-- Medicines Grid -->
+      <div class="card-grid" id="medicines-grid">
+        <!-- Medicines will be loaded dynamically -->
+        <div class="loader-container" style="text-align: center; grid-column: 1 / -1; padding: 40px;">
+          <span class="loader"></span>
+        </div>
+      </div>
+      
+      <!-- Pagination -->
+      <div class="pagination" id="pagination">
+        <!-- Pagination will be dynamically generated -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Medicine Details Modal -->
+  <div class="modal" id="medicine-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modal-medicine-name"></h2>
+        <button class="close-modal" id="close-modal">&times;</button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="medicine-details">
+          <img id="modal-medicine-image" class="medicine-image" src="" alt="">
+          
+          <div class="medicine-info">
+            <p id="modal-medicine-description"></p>
+            
+            <div class="medicine-meta">
+              <div class="medicine-meta-item">
+                <strong>Dosage:</strong>
+                <span id="modal-medicine-dosage"></span>
+              </div>
+              
+              <div class="medicine-meta-item">
+                <strong>Category:</strong>
+                <span id="modal-medicine-category"></span>
+              </div>
+              
+              <div class="medicine-meta-item">
+                <strong>Price:</strong>
+                <span id="modal-medicine-price"></span>
+              </div>
+              
+              <div class="medicine-meta-item" id="modal-medicine-prescription-container" style="display: none;">
+                <strong class="prescription-required">Prescription Required</strong>
+              </div>
+            </div>
+            
+            <div class="medicine-tags" id="modal-medicine-tags">
+              <!-- Tags will be added dynamically -->
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button class="btn btn-outline modal-btn" id="modal-close-btn">Close</button>
+        <button class="btn btn-primary modal-btn" id="modal-add-to-cart-btn">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">Medico+</div>
+        
+        <ul class="footer-links">
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+        
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+      
+      <div class="copyright">
+        &copy; 2023 Medico+. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notifications -->
+  <div id="toast-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;"></div>
+</body>
+</html> 

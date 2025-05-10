@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chatbot - Medico</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="styles/style.css">
+  <link rel="stylesheet" href="styles/darkmode.css">
+  <link rel="stylesheet" href="styles/custom.css">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Scripts -->
+  <script src="scripts/firebase.js" defer></script>
+  <script src="scripts/main.js" defer></script>
+  <script>
+    // Simple chatbot logic
+    document.addEventListener('DOMContentLoaded', () => {
+      const chatMessages = document.getElementById('chat-messages');
+      const chatForm = document.getElementById('chat-form');
+      const chatInput = document.getElementById('chat-input');
+      
+      // Add welcome message
+      addBotMessage("Hello! I'm MediBot, your medical assistant. How can I help you today?");
+      
+      // Handle chat form submission
+      chatForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const message = chatInput.value.trim();
+        if (!message) return;
+        
+        // Add user message
+        addUserMessage(message);
+        
+        // Clear input
+        chatInput.value = '';
+        
+        // Process message and respond
+        setTimeout(() => {
+          processBotResponse(message);
+        }, 500);
+      });
+      
+      // Add user message to chat
+      function addUserMessage(message) {
+        const div = document.createElement('div');
+        div.className = 'message user-message';
+        div.textContent = message;
+        chatMessages.appendChild(div);
+        scrollToBottom();
+      }
+      
+      // Add bot message to chat
+      function addBotMessage(message) {
+        const div = document.createElement('div');
+        div.className = 'message bot-message';
+        div.textContent = message;
+        chatMessages.appendChild(div);
+        scrollToBottom();
+      }
+      
+      // Process and generate bot response
+      function processBotResponse(message) {
+        message = message.toLowerCase();
+        
+        // Simple keyword-based responses
+        if (message.includes('hello') || message.includes('hi')) {
+          addBotMessage("Hi there! How can I assist you with your health questions?");
+        }
+        else if (message.includes('help') || message.includes('can you')) {
+          addBotMessage("I can help you with information about medicines, dosages, side effects, and general health advice. What would you like to know?");
+        }
+        else if (message.includes('paracetamol') || message.includes('acetaminophen')) {
+          addBotMessage("Paracetamol (acetaminophen) is a pain reliever and fever reducer. The typical adult dosage is 500-1000mg every 4-6 hours, not exceeding 4000mg daily. It's used for headaches, muscle aches, arthritis, backache, toothaches, colds, and fevers.");
+        }
+        else if (message.includes('ibuprofen')) {
+          addBotMessage("Ibuprofen is a nonsteroidal anti-inflammatory drug (NSAID) used for pain relief, fever reduction, and inflammation. The typical adult dosage is 200-400mg every 4-6 hours, not exceeding 1200mg daily. It should be taken with food to reduce stomach irritation.");
+        }
+        else if (message.includes('headache') || message.includes('pain')) {
+          addBotMessage("For headaches and pain relief, commonly used medications include paracetamol (acetaminophen) and ibuprofen. Remember to follow the recommended dosage. If pain persists for more than a few days, please consult with a healthcare provider.");
+        }
+        else if (message.includes('fever') || message.includes('temperature')) {
+          addBotMessage("For fever reduction, paracetamol (acetaminophen) or ibuprofen can be effective. Stay hydrated and rest. If fever exceeds 103°F (39.4°C) or lasts more than three days, seek medical attention.");
+        }
+        else if (message.includes('thanks') || message.includes('thank you')) {
+          addBotMessage("You're welcome! If you have any other questions, feel free to ask.");
+        }
+        else {
+          addBotMessage("I don't have specific information about that. For accurate medical advice, please consult with a healthcare professional or browse our medicines section for detailed information.");
+        }
+      }
+      
+      // Scroll chat to bottom
+      function scrollToBottom() {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+    });
+  </script>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo">Medico<span>+</span></a>
+        
+        <button class="hamburger" id="hamburger">
+          <i class="fas fa-bars"></i>
+        </button>
+        
+        <ul class="nav-links" id="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="medicines.html">Medicines</a></li>
+          <li><a href="interactions.html">Interactions</a></li>
+          <li><a href="guides.html">Guides</a></li>
+          <li><a href="chatbot.html">Chatbot</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="login.html" class="login-btn">Sign In</a></li>
+          <li><a href="signup.html" class="login-btn">Sign Up</a></li>
+          <li>
+            <a href="#" class="logout-btn" style="display: none;">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+          </li>
+          <li>
+            <a href="cart.html" class="cart-icon">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="cart-count" id="cart-count">0</span>
+            </a>
+          </li>
+          <li>
+            <div class="dark-mode-toggle">
+              <i class="fas fa-moon toggle-icon moon"></i>
+              <i class="fas fa-sun toggle-icon sun"></i>
+              <label class="toggle-switch">
+                <input type="checkbox" id="dark-mode-toggle">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </li>
+        </ul>
+        
+        <div id="user-greeting" style="display: none;"></div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+      <h1 class="page-title">MediBot Assistant</h1>
+      
+      <div class="intro-text">
+        <p>Chat with our AI-powered medical assistant to get quick answers about medicines, symptoms, and general health advice.</p>
+        <p class="disclaimer">
+          <i class="fas fa-exclamation-circle"></i> <strong>Disclaimer:</strong> MediBot provides general information only and should not replace professional medical advice. Always consult with a healthcare professional for medical concerns.
+        </p>
+      </div>
+      
+      <div class="chatbot-container">
+        <div class="chat-header">
+          <i class="fas fa-robot"></i> MediBot
+        </div>
+        
+        <div class="chat-messages" id="chat-messages">
+          <!-- Messages will be added dynamically -->
+        </div>
+        
+        <form id="chat-form" class="chat-input-container">
+          <input type="text" id="chat-input" class="chat-input" placeholder="Type your message here..." autocomplete="off">
+          <button type="submit" class="send-btn">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </form>
+      </div>
+      
+      <div class="chat-suggestions" style="margin-top: 30px;">
+        <h3>Try asking about:</h3>
+        <div class="suggestion-chips" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px;">
+          <button class="chip" onclick="document.getElementById('chat-input').value = 'What is paracetamol used for?'; document.getElementById('chat-form').dispatchEvent(new Event('submit'))">What is paracetamol used for?</button>
+          <button class="chip" onclick="document.getElementById('chat-input').value = 'How to treat a headache?'; document.getElementById('chat-form').dispatchEvent(new Event('submit'))">How to treat a headache?</button>
+          <button class="chip" onclick="document.getElementById('chat-input').value = 'What is the dosage for ibuprofen?'; document.getElementById('chat-form').dispatchEvent(new Event('submit'))">What is the dosage for ibuprofen?</button>
+          <button class="chip" onclick="document.getElementById('chat-input').value = 'What should I do for a fever?'; document.getElementById('chat-form').dispatchEvent(new Event('submit'))">What should I do for a fever?</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">Medico+</div>
+        
+        <ul class="footer-links">
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+        
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+      
+      <div class="copyright">
+        &copy; 2023 Medico+. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notifications -->
+  <div id="toast-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;"></div>
+
+  <style>
+    /* Additional styles for chatbot chips */
+    .chip {
+      padding: 8px 15px;
+      background-color: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .chip:hover {
+      background-color: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+    
+    .dark-mode .chip {
+      background-color: #334155;
+      border-color: #475569;
+      color: #e2e8f0;
+    }
+    
+    .dark-mode .chip:hover {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+  </style>
+</body>
+</html> 

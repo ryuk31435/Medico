@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart - Medico</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="styles/style.css">
+  <link rel="stylesheet" href="styles/darkmode.css">
+  <link rel="stylesheet" href="styles/custom.css">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Scripts -->
+  <script src="scripts/firebase.js" defer></script>
+  <script src="scripts/main.js" defer></script>
+  <script src="scripts/cart.js" defer></script>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo">Medico<span>+</span></a>
+        
+        <button class="hamburger" id="hamburger">
+          <i class="fas fa-bars"></i>
+        </button>
+        
+        <ul class="nav-links" id="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="medicines.html">Medicines</a></li>
+          <li><a href="interactions.html">Interactions</a></li>
+          <li><a href="guides.html">Guides</a></li>
+          <li><a href="chatbot.html">Chatbot</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="login.html" class="login-btn">Sign In</a></li>
+          <li><a href="signup.html" class="login-btn">Sign Up</a></li>
+          <li>
+            <a href="#" class="logout-btn" style="display: none;">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+          </li>
+          <li>
+            <a href="cart.html" class="cart-icon">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="cart-count" id="cart-count">0</span>
+            </a>
+          </li>
+          <li>
+            <div class="dark-mode-toggle">
+              <i class="fas fa-moon toggle-icon moon"></i>
+              <i class="fas fa-sun toggle-icon sun"></i>
+              <label class="toggle-switch">
+                <input type="checkbox" id="dark-mode-toggle">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </li>
+        </ul>
+        
+        <div id="user-greeting" style="display: none;"></div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+      <h1 class="page-title">Shopping Cart</h1>
+      
+      <div class="cart-container">
+        <div class="cart-items" id="cart-items">
+          <!-- Cart items will be loaded dynamically -->
+          <div class="loader-container" style="text-align: center; padding: 40px;">
+            <span class="loader"></span>
+          </div>
+        </div>
+        
+        <div class="cart-summary">
+          <h2>Order Summary</h2>
+          
+          <div class="summary-item">
+            <span class="summary-label">Subtotal:</span>
+            <span class="summary-value" id="cart-subtotal">$0.00</span>
+          </div>
+          
+          <div class="summary-item">
+            <span class="summary-label">Shipping:</span>
+            <span class="summary-value">$5.00</span>
+          </div>
+          
+          <div class="summary-item total">
+            <span class="summary-label">Total:</span>
+            <span class="summary-value" id="cart-total">$0.00</span>
+          </div>
+          
+          <button class="btn btn-primary" id="checkout-btn" style="width: 100%; margin-top: 20px;">
+            Proceed to Checkout
+          </button>
+          
+          <a href="medicines.html" class="btn btn-outline" style="width: 100%; margin-top: 10px; text-align: center;">
+            Continue Shopping
+          </a>
+        </div>
+      </div>
+      
+      <!-- Checkout Form (Initially Hidden) -->
+      <div class="checkout-form-container" id="checkout-form-container" style="display: none;">
+        <h2>Complete Your Order</h2>
+        
+        <form id="order-form">
+          <div class="form-group">
+            <label for="customer-name" class="form-label">Full Name</label>
+            <input type="text" id="customer-name" class="form-input" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="customer-email" class="form-label">Email Address</label>
+            <input type="email" id="customer-email" class="form-input" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="customer-phone" class="form-label">Phone Number</label>
+            <input type="tel" id="customer-phone" class="form-input" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="customer-address" class="form-label">Delivery Address</label>
+            <textarea id="customer-address" class="form-input" rows="3" required></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="payment-method" class="form-label">Payment Method</label>
+            <select id="payment-method" class="form-input" required>
+              <option value="">Select Payment Method</option>
+              <option value="credit-card">Credit Card</option>
+              <option value="paypal">PayPal</option>
+              <option value="cash">Cash on Delivery</option>
+            </select>
+          </div>
+          
+          <div id="credit-card-fields" style="display: none;">
+            <!-- These fields are for UI demonstration only -->
+            <div class="form-group">
+              <label for="card-number" class="form-label">Card Number</label>
+              <input type="text" id="card-number" class="form-input" placeholder="1234 5678 9012 3456">
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group" style="width: 48%;">
+                <label for="card-expiry" class="form-label">Expiry Date</label>
+                <input type="text" id="card-expiry" class="form-input" placeholder="MM/YY">
+              </div>
+              
+              <div class="form-group" style="width: 48%;">
+                <label for="card-cvv" class="form-label">CVV</label>
+                <input type="text" id="card-cvv" class="form-input" placeholder="123">
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="order-notes" class="form-label">Order Notes (Optional)</label>
+            <textarea id="order-notes" class="form-input" rows="2"></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label class="checkbox-container">
+              <input type="checkbox" id="terms-checkbox" required>
+              <span class="checkmark"></span>
+              I agree to the <a href="#">Terms and Conditions</a>
+            </label>
+          </div>
+          
+          <div class="form-actions">
+            <button type="button" id="back-to-cart-btn" class="btn btn-outline">Back to Cart</button>
+            <button type="submit" id="place-order-btn" class="btn btn-primary">Place Order</button>
+          </div>
+        </form>
+      </div>
+      
+      <!-- Order Success (Initially Hidden) -->
+      <div class="order-success" id="order-success" style="display: none; text-align: center; padding: 40px;">
+        <i class="fas fa-check-circle" style="font-size: 4rem; color: var(--secondary-color); margin-bottom: 20px;"></i>
+        <h2>Order Placed Successfully!</h2>
+        <p>Your order has been received and is being processed.</p>
+        <p>Order ID: <span id="order-id">ORD-12345</span></p>
+        <p>A confirmation email has been sent to your email address.</p>
+        <a href="medicines.html" class="btn btn-primary" style="margin-top: 20px;">Continue Shopping</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">Medico+</div>
+        
+        <ul class="footer-links">
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+        
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+      
+      <div class="copyright">
+        &copy; 2025 Medico+. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notifications -->
+  <div id="toast-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;"></div>
+</body>
+</html> 

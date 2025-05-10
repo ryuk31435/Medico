@@ -1,0 +1,144 @@
+{
+  "interactions": [
+    {
+      "medicine1": "med001",
+      "medicine2": "med006",
+      "severity": "moderate",
+      "description": "Combining Paracetamol with Aspirin may increase the risk of side effects. While occasional use of both is generally considered safe, regular long-term use together should be monitored by a healthcare provider.",
+      "recommendation": "If you need pain relief, consider using just one of these medications. If you must use both, discuss with your doctor or pharmacist about proper dosing and timing."
+    },
+    {
+      "medicine1": "med002",
+      "medicine2": "med006",
+      "severity": "severe",
+      "description": "Using Ibuprofen with Aspirin may increase the risk of gastrointestinal bleeding and ulcers. Both are NSAIDs and their combined effect can damage the stomach lining.",
+      "recommendation": "Avoid using these medications together. If you've been prescribed both by a doctor, follow their guidance exactly and report any stomach pain immediately."
+    },
+    {
+      "medicine1": "med003",
+      "medicine2": "med004",
+      "severity": "mild",
+      "description": "There are typically no significant interactions between Amoxicillin (antibiotic) and Cetirizine (antihistamine). They can generally be taken together safely.",
+      "recommendation": "You can typically take both medications as prescribed. However, always inform your doctor about all medicines you are taking."
+    },
+    {
+      "medicine1": "med005",
+      "medicine2": "med014",
+      "severity": "moderate",
+      "description": "Antacids can decrease the absorption of Omeprazole when taken simultaneously, making it less effective.",
+      "recommendation": "Take Omeprazole at least 30 minutes to 1 hour before taking any antacid for best effectiveness."
+    },
+    {
+      "medicine1": "med002",
+      "medicine2": "med011",
+      "severity": "moderate",
+      "description": "Ibuprofen may increase the effects of Diazepam, potentially causing increased drowsiness, reduced coordination, and cognitive impairment.",
+      "recommendation": "Use caution when combining these medications. Consider reducing the dosage of either medication and avoid activities requiring mental alertness until you know how this combination affects you."
+    },
+    {
+      "medicine1": "med006",
+      "medicine2": "med009",
+      "severity": "moderate",
+      "description": "Aspirin may reduce the effectiveness of Atorvastatin (cholesterol-lowering medication) and increase the risk of side effects.",
+      "recommendation": "If you need to take both medications, discuss the timing and dosing with your healthcare provider."
+    },
+    {
+      "medicine1": "med008",
+      "medicine2": "med005",
+      "severity": "mild",
+      "description": "Omeprazole may slightly enhance the blood-sugar-lowering effect of Metformin in some patients.",
+      "recommendation": "Monitor your blood sugar levels more frequently when starting or stopping Omeprazole while on Metformin."
+    },
+    {
+      "medicine1": "med001",
+      "medicine2": "med011",
+      "severity": "mild",
+      "description": "No significant interaction is typically observed between Paracetamol and Diazepam, but combined use may cause increased drowsiness in some individuals.",
+      "recommendation": "These medications can generally be used together as prescribed, but use caution with activities requiring alertness until you know how they affect you."
+    },
+    {
+      "medicine1": "med011",
+      "medicine2": "med012",
+      "severity": "mild",
+      "description": "Diazepam may slightly enhance the adverse effects of Salbutamol on the heart, potentially causing increased heart rate or palpitations in some individuals.",
+      "recommendation": "These medications can generally be used together when necessary, but report any unusual heart symptoms to your doctor."
+    },
+    {
+      "medicine1": "med003",
+      "medicine2": "med010",
+      "severity": "mild",
+      "description": "Vitamin D3 supplementation does not typically interact with Amoxicillin, though high doses of vitamin D may affect calcium levels.",
+      "recommendation": "These supplements and medications can generally be taken together without concerns."
+    },
+    {
+      "medicine1": "med007",
+      "medicine2": "med011",
+      "severity": "moderate",
+      "description": "Loratadine combined with Diazepam may cause increased drowsiness and decreased alertness, even though Loratadine is marketed as non-drowsy.",
+      "recommendation": "Use caution when combining these medications. Avoid driving or operating machinery until you know how this combination affects you."
+    },
+    {
+      "medicine1": "med009",
+      "medicine2": "med010",
+      "severity": "beneficial",
+      "description": "Vitamin D3 may enhance the effectiveness of Atorvastatin in managing cholesterol levels and improving heart health.",
+      "recommendation": "This combination may be beneficial. Follow your doctor's recommendations for both medications."
+    },
+    {
+      "medicine1": "med012",
+      "medicine2": "med016",
+      "severity": "beneficial",
+      "description": "Acetylcysteine can complement the effects of Salbutamol inhaler by helping break down mucus while Salbutamol opens airways.",
+      "recommendation": "This combination may be particularly effective for respiratory conditions with mucus production. Follow prescribed dosing for both."
+    },
+    {
+      "medicine1": "med004",
+      "medicine2": "med007",
+      "severity": "moderate",
+      "description": "Taking both Cetirizine and Loratadine together provides no additional benefit and may increase the risk of side effects, as they are both antihistamines.",
+      "recommendation": "Choose either Cetirizine or Loratadine, not both. They work through similar mechanisms and doubling up won't improve allergy symptoms."
+    },
+    {
+      "medicine1": "med006",
+      "medicine2": "med011",
+      "severity": "severe",
+      "description": "Aspirin may increase the blood levels of Diazepam, potentially leading to enhanced sedation and impaired cognitive and motor functions.",
+      "recommendation": "Avoid this combination unless specifically directed by your healthcare provider. If both are necessary, dosage adjustments may be required."
+    },
+    {
+      "medicine1": "med002",
+      "medicine2": "med005",
+      "severity": "moderate",
+      "description": "Ibuprofen may reduce the effectiveness of Omeprazole in protecting the stomach, and Omeprazole may not fully protect against Ibuprofen-induced stomach damage.",
+      "recommendation": "If you need both medications, take Omeprazole at least 30 minutes before Ibuprofen and consider discussing with your doctor."
+    },
+    {
+      "medicine1": "med001",
+      "medicine2": "med008",
+      "severity": "mild",
+      "description": "No significant interaction is typically observed between Paracetamol and Metformin. They can generally be taken together safely.",
+      "recommendation": "These medications can be used together as prescribed. No special precautions are generally needed."
+    },
+    {
+      "medicine1": "med014",
+      "medicine2": "med008",
+      "severity": "moderate",
+      "description": "Antacids containing magnesium, aluminum, or calcium may decrease the absorption of Metformin, potentially reducing its effectiveness.",
+      "recommendation": "Take Metformin at least 2 hours before or after taking antacids for optimal effectiveness."
+    },
+    {
+      "medicine1": "med009",
+      "medicine2": "med011",
+      "severity": "moderate",
+      "description": "Diazepam may increase blood levels of Atorvastatin, potentially increasing the risk of side effects such as muscle pain or liver problems.",
+      "recommendation": "If you need both medications, your doctor may need to adjust your Atorvastatin dose and monitor liver enzymes more closely."
+    },
+    {
+      "medicine1": "med015",
+      "medicine2": "med004",
+      "severity": "mild",
+      "description": "No significant interaction is typically observed between Hydrocortisone cream and Cetirizine. Topical hydrocortisone is minimally absorbed systemically.",
+      "recommendation": "These medications can generally be used together safely for treating allergic skin reactions."
+    }
+  ]
+} 
